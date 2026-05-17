@@ -1,6 +1,10 @@
-# /build-spec-tool
-
-Bootstrap any monorepo with spec-driven development infrastructure. Creates `.ai-dev/` knowledge files (ARCHITECTURE.md, SECURITY.md, LEGAL.md, PLAN.md) that serve as a knowledge base for AI agents to generate implementation plans and validate against standards.
+---
+name: build-spec-tool
+description: Bootstrap any monorepo with spec-driven development infrastructure. Creates `.ai-dev/` knowledge files (ARCHITECTURE.md, SECURITY.md, LEGAL.md, PLAN.md) that serve as a knowledge base for AI agents to generate implementation plans and validate against standards.
+metadata:
+  author: Noah-Casey
+  version: "1.0"
+---
 
 ## What This Creates
 
