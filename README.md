@@ -4,21 +4,7 @@ Platform-agnostic AI skills and tools. These skills work with Claude, GPT, Copil
 
 Previously: Claude Code plugins by Abnormal AI.
 
-## Discovery
-
-Skills are discoverable via [agentskills.io](https://agentskills.io) and your AI agent's skill marketplace.
-
 ## Plugins
-
-### careers-abnormal-ai
-
-Explore engineering roles at Abnormal AI that match your interests and stack.
-
-```
-/plugin install careers-abnormal-ai@abnormal-ai
-```
-
-Then run `/careers-abnormal-ai`.
 
 ### spec-tool
 
