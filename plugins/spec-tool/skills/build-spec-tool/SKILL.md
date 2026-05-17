@@ -1,6 +1,6 @@
 # /build-spec-tool
 
-Bootstrap any monorepo with spec-driven development infrastructure. Creates `.ai-dev/` knowledge files, a planning template, review agent, and CLI wrapper.
+Bootstrap any monorepo with spec-driven development infrastructure. Creates `.ai-dev/` knowledge files (ARCHITECTURE.md, SECURITY.md, LEGAL.md, PLAN.md) that serve as a knowledge base for AI agents to generate implementation plans and validate against standards.
 
 ## What This Creates
 
@@ -11,44 +11,33 @@ target-repo/
 │   ├── SECURITY.md              # Data classification, access controls, encryption
 │   ├── LEGAL.md                 # Data residency, retention, compliance
 │   ├── PLAN.md                  # Spec template for implementation plans
-│   └── SYSTEM_PROMPT.md         # Planning methodology (injected by bin/plan)
-├── .claude/agents/
+│   └── SYSTEM_PROMPT.md         # Planning methodology and research guidelines
+├── .agents/
 │   └── plan-review-agent.md     # Reviews plans against .ai-dev/ standards
-├── bin/plan                     # Shell wrapper to launch spec generation
-└── CLAUDE.md                    # Updated with .ai-dev/ references
+└── README.md                    # Updated with .ai-dev/ references
 ```
 
 ## Workflow (5 Phases)
 
 ### Phase 1: Discovery (parallel)
 
-Run two things simultaneously:
+Perform comprehensive codebase analysis with parallel exploration tasks:
 
-**Codebase exploration** -- spawn 2-3 Explore agents to analyze:
-- Tech stack: languages, frameworks, build systems, CI/CD
-- Architecture: services, databases, APIs, event systems
-- Conventions: testing patterns, linting, PR templates, code ownership
+**Codebase exploration** -- Analyze three key areas:
+1. **Tech stack**: languages, frameworks, build systems, CI/CD patterns. Look at package.json, go.mod, requirements.txt, Makefile, Dockerfile, .github/workflows/
+2. **Architecture**: services/apps, databases, message queues, API patterns. Look at docker-compose, k8s manifests, terraform, service definitions
+3. **Conventions**: testing patterns, linting config, PR templates, CODEOWNERS, existing dev docs (*_dev.md, *_usage.md, CONTRIBUTING.md)
 
-```
-Task(subagent_type="Explore", description="Analyze tech stack", prompt="Identify all languages, frameworks, build systems, and CI/CD patterns in this repo. Look at package.json, go.mod, requirements.txt, Makefile, Dockerfile, .github/workflows/, etc.")
-Task(subagent_type="Explore", description="Map architecture", prompt="Map the service architecture: find all services/apps, databases, message queues, API patterns. Look at docker-compose, k8s manifests, terraform, service definitions.")
-Task(subagent_type="Explore", description="Find conventions", prompt="Identify testing conventions, linting config, PR templates, CODEOWNERS, existing dev docs (*_dev.md, *_usage.md, CONTRIBUTING.md).")
-```
-
-**User document ingestion** -- ask the user to provide or paste:
+**User document ingestion** -- Ask the user to provide existing documentation:
 - Existing architecture docs, ADRs, design docs
 - Security policies, data classification rules
 - Legal/compliance requirements, DPAs
 - API conventions, coding standards
 
-Use AskUserQuestion:
-```
-"Do you have existing documentation to incorporate? I'll use these to populate your .ai-dev/ files."
-Options:
-- "Yes, I'll paste/provide paths" -> collect and read them
-- "No, let's build from scratch" -> proceed to interview
-- "Some -- let me share what I have" -> collect partial, fill gaps in interview
-```
+Offer three options:
+- "Yes, I'll paste/provide paths" → collect and read them
+- "No, let's build from scratch" → proceed to interview
+- "Some -- let me share what I have" → collect partial, fill gaps in interview
 
 ### Phase 2: Optional Interview (3-5 rounds)
 
@@ -78,20 +67,23 @@ Read the reference templates from this skill's `references/` directory, then gen
    - Replace references to documentation index files with the repo's actual doc discovery patterns
    - Update ticket/issue tracker references to match the repo's tooling (GitHub Issues, Linear, Jira, etc.)
 
-6. **Update `CLAUDE.md`** -- Append the content from `assets/claude_md_snippet.md` to the repo's existing `CLAUDE.md` (create if it doesn't exist).
+6. **Create `.agents/` directory** -- This directory stores agent definitions that can be used by any AI platform:
+   - Copy `references/plan-review-agent.md` as the initial agent
+   - Update `README.md` in the target repo with references to `.ai-dev/` knowledge files
 
-### Phase 4: Create Shell Wrapper
+### Phase 4: Platform Integration Guidance
 
-1. Read `scripts/plan.sh` for the template
-2. Generate `bin/plan` from the template
-3. Make executable: `chmod +x bin/plan`
-4. Ask the user if they prefer a different location (e.g., `scripts/plan` or a Makefile target)
+Provide the user with platform-specific guidance on how to use the generated `.ai-dev/` files:
+- Claude: Can be loaded directly as system context or skill knowledge
+- GPT: Can be provided as system prompt or in conversational context
+- Copilot: Can be integrated as project context or agent instructions
+- Other AI platforms: See the `.ai-dev/` files as a knowledge base for any agent system
 
 ### Phase 5: Create Plan Review Agent
 
-1. Read `references/plan_review_agent.md`
-2. Create `.claude/agents/plan-review-agent.md` in the target repo
-3. No customization needed -- the agent reads `.ai-dev/` files dynamically
+1. Read `references/plan-review-agent.md` from this skill
+2. Create `.agents/plan-review-agent.md` in the target repo
+3. No customization needed -- the agent reads `.ai-dev/` files dynamically to validate plans
 
 ## After Bootstrap
 
@@ -100,18 +92,21 @@ Present the user with a summary of what was created and next steps:
 ```
 Spec-driven development infrastructure is set up. Here's what was created:
 
-.ai-dev/ARCHITECTURE.md  -- [brief summary of what's in it]
-.ai-dev/SECURITY.md      -- [brief summary]
-.ai-dev/LEGAL.md          -- [brief summary]
-.ai-dev/PLAN.md           -- Spec template for implementation plans
-.ai-dev/SYSTEM_PROMPT.md  -- Planning methodology for bin/plan
-.claude/agents/plan-review-agent.md -- Validates plans against standards
-bin/plan                  -- Launch spec-driven planning sessions
+.ai-dev/ARCHITECTURE.md       -- Tech stack, architecture patterns, conventions
+.ai-dev/SECURITY.md          -- Data classification, access controls, encryption
+.ai-dev/LEGAL.md             -- Data residency, retention, compliance requirements
+.ai-dev/PLAN.md              -- Spec template for implementation plans
+.ai-dev/SYSTEM_PROMPT.md     -- Planning methodology and research guidelines
+.agents/plan-review-agent.md -- Validates plans against standards
+README.md                    -- Updated with .ai-dev/ references
 
 Next steps:
 1. Review each .ai-dev/ file and refine as needed
-2. Try it: bin/plan "add user authentication"
-3. Commit the .ai-dev/ directory and bin/plan to your repo
+2. Commit the .ai-dev/ directory and .agents/ directory to your repo
+3. Use with your AI agent:
+   - Load .ai-dev/ files as context for planning sessions
+   - Use plan-review-agent.md to validate generated plans
+   - Refer to README.md for guidance on using spec-driven development
 ```
 
 ## Critical: No Guessed or Assumed Content
@@ -139,3 +134,4 @@ The `.ai-dev/` files become the source of truth for all future planning. Inaccur
 - **SYSTEM_PROMPT.md customization is light** -- mainly updating documentation discovery patterns and issue tracker references.
 - **ARCHITECTURE.md requires the most work** -- it should reflect the repo's actual patterns, not generic advice.
 - **All reference files are in this skill's `references/` directory** -- read them before generating.
+- **Platform-agnostic by design** -- The generated `.ai-dev/` files are platform-agnostic and work with any AI agent system (Claude, GPT, Copilot, Gemini, etc.)

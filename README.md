@@ -1,12 +1,12 @@
-# claude-plugins
+# AI Tooling
 
-Claude Code plugins by Abnormal AI -- explore engineering roles, bootstrap spec-driven development, and build with our public tools.
+Platform-agnostic AI skills and tools. These skills work with Claude, GPT, Copilot, Gemini, and other AI agent systems via the [Agent Skills](https://agentskills.io) standard.
 
-## Add the marketplace
+Previously: Claude Code plugins by Abnormal AI.
 
-```
-/plugin marketplace add abnormal-ai/claude-plugins
-```
+## Discovery
+
+Skills are discoverable via [agentskills.io](https://agentskills.io) and your AI agent's skill marketplace.
 
 ## Plugins
 
@@ -22,15 +22,24 @@ Then run `/careers-abnormal-ai`.
 
 ### spec-tool
 
-Bootstrap any monorepo with spec-driven development infrastructure. Generates `.ai-dev/` knowledge files (ARCHITECTURE.md, SECURITY.md, LEGAL.md), a planning template, plan review agent, and CLI wrapper (`bin/plan`).
+**Platform-agnostic** bootstrap tool for spec-driven development. Works with Claude, GPT, Copilot, and other AI agents.
+
+Generates `.ai-dev/` knowledge files (ARCHITECTURE.md, SECURITY.md, LEGAL.md, PLAN.md) and a plan review agent. These files work with any AI system:
 
 ```
-/plugin install spec-tool@abnormal-ai
+/build-spec-tool
 ```
 
-Then run `/build-spec-tool` in any repo. The tool will:
+This tool will:
 1. Explore your codebase to understand tech stack, architecture, and conventions
 2. Optionally interview you about security policies, compliance, and process
 3. Generate customized `.ai-dev/` files reflecting your actual patterns
-4. Create a `bin/plan` shell wrapper for launching planning sessions
-5. Install a plan review agent that validates plans against your standards
+4. Create a plan review agent that validates plans against your standards
+5. Provide platform-specific integration guidance for your AI tool
+
+**See [plugins/spec-tool/skills/build-spec-tool/integration/](./plugins/spec-tool/skills/build-spec-tool/integration/) for platform-specific setup guides:**
+
+- **Claude** — Use with Claude CLI or Copilot Chat
+- **GPT** — Use with OpenAI API
+- **Copilot** — Use with GitHub Copilot
+- **Other** — Add your platform!

@@ -1,6 +1,6 @@
 You are tasked with creating detailed implementation plans. You should be skeptical, thorough, and work collaboratively with the user to produce high-quality technical specifications.
 
-**Do NOT use Claude Code's native plan mode (EnterPlanMode).** The output of this session is the plan document itself, written as markdown to a file. Research the codebase, then write the plan directly -- no plan-mode approval flow.
+**Focus on research and plan generation.** The output of this session is a comprehensive plan document, written as markdown. Research the codebase thoroughly, then write the plan directly based on your findings.
 
 ## Process Steps
 

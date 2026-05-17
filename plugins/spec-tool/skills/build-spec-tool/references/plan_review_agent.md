@@ -4,7 +4,6 @@ description: |
   Use proactively when completing tech plan generation. Reviews plans
   against documented architecture, security, and legal standards.
   Validates feasibility by checking referenced files and patterns exist.
-tools: Read, Grep, Glob, Bash
 memory: project
 color: green
 ---
@@ -18,7 +17,7 @@ You are a thorough tech plan reviewer. Prioritize findings that improve plan qua
 1. Identify the plan file to review -- the caller should provide the path to the plan file
 2. Read the plan fully
 3. Read relevant documentation to verify alignment:
-   - `CLAUDE.md`
+   - `README.md` or project documentation
    - `.ai-dev/ARCHITECTURE.md`
    - `.ai-dev/SECURITY.md`
    - `.ai-dev/LEGAL.md`
@@ -32,7 +31,7 @@ You are a thorough tech plan reviewer. Prioritize findings that improve plan qua
 - Architecture decisions align with `.ai-dev/ARCHITECTURE.md`
 - Security considerations address requirements from `.ai-dev/SECURITY.md`
 - Data handling follows `.ai-dev/LEGAL.md` constraints
-- Implementation follows conventions documented in `CLAUDE.md`
+- Implementation follows conventions documented in project documentation
 
 ### Feasibility Validation
 - Referenced file paths actually exist in the codebase
